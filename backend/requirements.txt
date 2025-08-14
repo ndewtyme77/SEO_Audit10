@@ -1,6 +1,6 @@
 fastapi
 uvicorn
 requests
-pip install --upgrade pip
+pip
 python-seo-analyzer
 reportlab
