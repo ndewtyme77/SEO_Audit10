@@ -4,7 +4,8 @@ from services.pagespeed import get_pagespeed_data
 from services.pagerank import get_pagerank_data
 from services.seo_analyzer import run_seo_analysis
 from services.lighthouse import run_lighthouse_audit
-from utils.report_generator import generate_pdf_report
+#from utils.report_generator import generate_pdf_report
+from utils.report_generator import generate_report
 from fastapi.responses import FileResponse
 import tempfile
 
