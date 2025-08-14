@@ -2,5 +2,5 @@ fastapi
 uvicorn
 requests
 pip
-python-seo-analyzer
+pyseoanalyzer
 reportlab
