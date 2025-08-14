@@ -1,0 +1,32 @@
+seo-audit-app/
+├── backend/
+│   ├── main.py
+│   ├── requirements.txt
+│   ├── services/
+│   │   ├── pagespeed.py
+│   │   ├── seo_crawler.py
+│   │   ├── serp_scraper.py
+│   │   └── backlinks.py
+│   ├── utils/
+│   │   ├── report_generator.py
+│   │   └── pdf_export.py
+│   ├── .env.example
+│   ├── Dockerfile
+│   └── README.md
+├── frontend/
+│   ├── public/
+│   │   └── index.html
+│   ├── src/
+│   │   ├── App.js
+│   │   ├── api.js
+│   │   ├── styles.css
+│   │   ├── components/
+│   │   │   ├── URLForm.js
+│   │   │   ├── ReportViewer.js
+│   │   │   └── ChartBlock.js
+│   ├── package.json
+│   ├── .env.example
+│   └── README.md
+├── README.md
+└── .gitignore
+.

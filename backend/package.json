@@ -1,0 +1,7 @@
+{
+  "name": "seo-audit-backend",
+  "version": "1.0.0",
+  "dependencies": {
+    "lighthouse": "^10.0.0"
+  }
+}
