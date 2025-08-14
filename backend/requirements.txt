@@ -1,5 +1,5 @@
 fastapi
 uvicorn
 requests
-python-seo-analyzer
+python-seo-analyzer 25.2
 reportlab
