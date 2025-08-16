@@ -1,11 +1,130 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SEO Audit Tool</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f8f9fa;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+    .container {
+      max-width: 800px;
+      margin: 40px auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    h1 {
+      color: #333;
+    }
+    input[type="text"] {
+      padding: 10px;
+      width: 70%;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    button {
+      padding: 10px 20px;
+      border: none;
+      margin-left: 10px;
+      background: #007BFF;
+      color: #fff;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:disabled {
+      background: #aaa;
+      cursor: not-allowed;
+    }
+    .results {
+      margin-top: 30px;
+      text-align: left;
+    }
+    .download-btn {
+      background: #28a745;
+      margin-top: 20px;
+    }
+    pre {
+      background: #f1f1f1;
+      padding: 10px;
+      border-radius: 5px;
+      overflow-x: auto;
+    }
+  </style>
 </head>
 <body>
-  <div id="root"></div>
+  <div class="container">
+    <h1>SEO Audit Tool</h1>
+    <form id="auditForm">
+      <input type="text" id="urlInput" placeholder="Enter website URL" required />
+      <button type="submit" id="analyzeBtn">Run Audit</button>
+    </form>
+    <div id="results" class="results"></div>
+    <button id="downloadBtn" class="download-btn" style="display:none;">Download PDF</button>
+  </div>
+
+  <script>
+    const apiBase = "https://your-backend-on-render.com"; // <- Change this to your backend URL
+
+    const form = document.getElementById("auditForm");
+    const urlInput = document.getElementById("urlInput");
+    const resultsDiv = document.getElementById("results");
+    const downloadBtn = document.getElementById("downloadBtn");
+    const analyzeBtn = document.getElementById("analyzeBtn");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const url = urlInput.value.trim();
+      if (!url) return;
+
+      analyzeBtn.disabled = true;
+      analyzeBtn.innerText = "Analyzing...";
+
+      try {
+        const response = await fetch(`${apiBase}/analyze`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ url })
+        });
+
+        if (!response.ok) throw new Error("API request failed");
+        const data = await response.json();
+
+        resultsDiv.innerHTML = `
+          <h2>SEO Report for ${url}</h2>
+          <pre>${JSON.stringify(data, null, 2)}</pre>
+        `;
+
+        downloadBtn.style.display = "inline-block";
+        downloadBtn.onclick = async () => {
+          const pdfResponse = await fetch(`${apiBase}/report/pdf`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ url })
+          });
+
+          if (!pdfResponse.ok) throw new Error("PDF generation failed");
+          const blob = await pdfResponse.blob();
+          const fileURL = window.URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          a.href = fileURL;
+          a.download = "seo_report.pdf";
+          a.click();
+        };
+
+      } catch (err) {
+        resultsDiv.innerHTML = `<p style="color:red;">Error: ${err.message}</p>`;
+      } finally {
+        analyzeBtn.disabled = false;
+        analyzeBtn.innerText = "Run Audit";
+      }
+    });
+  </script>
 </body>
 </html>
